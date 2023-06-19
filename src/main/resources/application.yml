@@ -1,0 +1,41 @@
+spring:
+  main:
+    allow-circular-references: true
+  #????:kafka??,???????????KafkaTemplate?
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    #https://kafka.apache.org/documentation/#consumerconfigs
+    producer:
+      #properties:
+        #?????
+        #partitioner.class: com.dmg.kafkalearn.provider.CustomPartitioner
+      #????????
+      acks: all
+      #transaction-id-prefix: "IFUN_TX"
+      #key??????
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      #value??????
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+
+    consumer:
+      group-id: auto-dev #????
+      #?????????????????
+      #max-poll-records: 3
+      #?????????offset ??ack ?  ack-mode ????
+      enable-auto-commit: false
+      # json???????
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              # ??json????????
+              packages: '*'
+
+    listener:
+      #???? single batch
+      type: single
+      # ?????? RECORD,  BATCH,  TIME, COUNT, COUNT_TIME, MANUAL, MANUAL_IMMEDIATE;
+      ack-mode: manual
